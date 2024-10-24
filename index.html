@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmailJS Geolocation Test</title>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("REYAKW-Bk4kYulDIf"); // Replace with your public API key
+        })();
+
+        function sendLocationEmail() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            const message = `I found your wallet! The current location is: Latitude: ${latitude}, Longitude: ${longitude}`;
+
+            // Send email with geolocation data
+            emailjs.send("service_nuic9cx", "template_8jjfldp", {
+                to_name: "Murad",
+                message: message
+            }).then(function(response) {
+                alert("Email with location sent successfully!");
+            }, function(error) {
+                alert("Failed to send email: " + JSON.stringify(error));
+            });
+        }
+
+        function showError(error) {
+            alert("Error retrieving location.");
+        }
+    </script>
+</head>
+<body>
+    <h1>EmailJS Geolocation Test</h1>
+    <p>Click the button to send your location to the owner.</p>
+    <button onclick="sendLocationEmail()">Send Location</button>
+</body>
+</html>
